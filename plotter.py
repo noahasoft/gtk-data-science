@@ -1,6 +1,6 @@
 import gi
 import pandas as pd
-from matplotlib.backends.backend_gtk3agg import FigureCanvasGTK3Agg as FigureCanvas
+from matplotlib.backends.backend_gtk3agg import FigureCanvasGTK3Agg
 import matplotlib.pyplot as plt
 
 gi.require_version("Gtk", "3.0")
@@ -24,14 +24,11 @@ class Plotter:
         if filename is not None:
             fn = filename.split("/")[-1]
             if self.column_names:
-                df = pd.read_csv(filename, sep=",", engine="python")
-                header_list = list(df.columns)
-                data = df[1:].values.tolist()
+                df = pd.read_csv(filename, engine="python")
             else:
-                df = pd.read_csv(filename, sep=",", engine="python", header=None)
+                df = pd.read_csv(filename, engine="python", header=None)
                 header_list = ["column" + str(x) for x in range(len(df.iloc[0]))]
                 df.columns = header_list
-                data = df.values.tolist()
             if self.drop_nan:
                 df = df.dropna()
 
@@ -63,16 +60,15 @@ class Plotter:
         if canvas_window.get_child():
             canvas_window.show_all()
             return
-        fig = plt.figure(dpi=100)
-        x = list(self.df.columns)[3]
-        y = list(self.df.columns)[5]
-        fig.add_subplot(111).scatter(
-            self.df[x], self.df[y], color="blue", edgecolor="k"
-        )
+        fig = plt.figure()
+        df = self.df
+        x = list(df.columns)[3]
+        y = list(df.columns)[5]
+        fig.add_subplot().scatter(df[x], df[y])
         plt.xlabel(x)
         plt.ylabel(y)
 
-        canvas = FigureCanvas(fig)
+        canvas = FigureCanvasGTK3Agg(fig)
         canvas.set_size_request(800, 600)
         canvas_window.add(canvas)
         canvas_window.show_all()
