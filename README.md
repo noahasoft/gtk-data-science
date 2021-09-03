@@ -8,3 +8,8 @@ This repo has example code used for a Michigan Python talk given September 2021.
 
 A video of the talk is available here:
 https://youtu.be/Ko0NTS0IpfI
+
+## Credits
+
+Some inspiration for this and the `cars.csv` data file was from the PySimpleGUI code here:
+https://github.com/tirthajyoti/DS-with-PySimpleGUI and [article](https://reposhub.com/python/graphical-user-interface-applications/tirthajyoti-DS-with-PySimpleGUI.html#play-with-the-notebooks-if-you-like).
